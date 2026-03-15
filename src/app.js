@@ -1,5 +1,34 @@
 const express=require('express')
+const connectDB=require("./config/database") // for connecting to database 
 const app=express()  // creating new application of express ...or instance of express js application 
+ const User=require("./models/user")
+   app.post("/signup", async (req,res)=>{
+    const user =new User(              //creating a new instance of User model. // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
+    {
+      firstName:"rohit",               //creating dummy data
+        lastName:"sharma",
+      emailID:"rohit@gmail.com",       //
+        password:"virat23",
+          
+     
+    })
+try{
+   await  user.save()  // this function will return a promise ,,basically most of mongoose functions, like to save , fetch data or put on database, all of these functions,methods ,api's return a promise ..so you have to use async  ,await
+   res.send("user added successfully")
+} catch (err){
+    res.status(400).send("ERROR saving the user:"+err.message)
+}
+
+   });
+   
+// we have created a  api that is storing dummy  data in database
+
+
+ 
+
+
+
+
 
 // .use will match all the HTTP method API calls to /route_name
 //.get will only handle "GET" call to /route_name
@@ -33,6 +62,9 @@ app.use("/dev",(req,res)=>{
 res.send("hello man you are being listened on server")     //  THIS FUNCTION IS KNOWN AS  REQUEST HANDLER.   //and if only this much is the code , whatever request will come in(written with slash) , only the hello line will be shown
 })
 
+
+//GET/users => it checks all the app.xyz("matching route") function    ... till it gets the response, it will keep going one by one by one from top to bottom to all handler
+
 app.get("/user",(req,res)=>{
     res.send({firstName: "devesh",  
         lastName:"Mishra"
@@ -48,12 +80,31 @@ app.use("/hello/2",(req,res)=>{
 })
 
 
-// now writing anything apart form /dev or /hello after 3000 will give "cannot get"
-//we have to acordingly add response handler for that
 
-app.listen(3000,()=>{
-    console.log("server is listening on port 3k sucessfuly")
-})
+
+
+
+
+  
+// now writing anything apart form /dev or /hello after 3000 will give "cannot get"
+//we have to acordingly add response handler for that 
+
+connectDB()     //this function returns a promise  
+   .then(()=>{
+    console.log("database connection established...")      
+    app.listen(3000,()=>{
+        console.log("server is listening on port 3000 succesfully")
+    })     
+     
+   })
+   .catch((err)=>{
+    console.error("database cannot be connected")      //bad case
+   })
+
+
+
+
+
 
 
 //CODE ORDER/SEQUENCE IS VERY IMPORTANT ...WHENEVER A REQUEST IS RECEIVED ,THE CODE EXECUTION START FROM TOP TO BOTTOM
