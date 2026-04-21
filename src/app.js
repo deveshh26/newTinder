@@ -5,11 +5,18 @@ const app=express()  // creating new application of express ...or instance of ex
  app.use(express.json())// now my json middleware will be activated for all the routes
    app.post("/signup", async (req,res)=>{
 //console.log(req)
-//console.log(req.body)  // important for printing the json data , that you created in postman.
+console.log(req.body)  // important for printing the json data , that you created in postman.
 
 
-    const user =new User( req.body)             //creating a new instance of User model. // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
-    
+    const user =new User(              //creating a new instance of User model. // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
+    {
+      firstName:"namo",               //creating dummy data
+        lastName:"mishra",
+      emailID:"namo@gmail.com",       // this is not a json object , this is javascript object
+        password:"dev23",
+           
+     
+    })
 try{
    await  user.save()  // this function will return a promise ,,basically most of mongoose functions, like to save , fetch data or put on database, all of these functions,methods ,api's return a promise ..so you have to use async  ,await
    res.send("user added successfully")
