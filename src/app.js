@@ -8,15 +8,8 @@ const app=express()  // creating new application of express ...or instance of ex
 console.log(req.body)  // important for printing the json data , that you created in postman.
 
 
-    const user =new User(              //creating a new instance of User model. // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
-    {
-      firstName:"namo",               //creating dummy data
-        lastName:"mishra",
-      emailID:"namo@gmail.com",       // this is not a json object , this is javascript object
-        password:"dev23",
-           
-     
-    })
+    const user =new User( req.body)   //made signup api very very dynamic // creating a new user from the data i have got from the request // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
+    
 try{
    await  user.save()  // this function will return a promise ,,basically most of mongoose functions, like to save , fetch data or put on database, all of these functions,methods ,api's return a promise ..so you have to use async  ,await
    res.send("user added successfully")
