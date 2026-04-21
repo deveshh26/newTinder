@@ -20,3 +20,4 @@
 17 create a user schema and usermodel
 18 create POST/signup API to add data to databases
 19 push some documents using API calls from postman
+20 difference between javascript object  and json object
