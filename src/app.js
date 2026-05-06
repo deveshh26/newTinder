@@ -19,8 +19,27 @@ try{
     
 
    });
+   //Get user by email
+   app.get("/user",async(req,res)=>{
+      const userEmail=req.body.emailID;
+      try {
+         const user=await User.find({emailID:userEmail});
+         if(user.length===0){res.status(404).send("USER NOT FOUND")}
+         else{
+         res.send(user);}
+
+      } catch (err) {
+         res.send(400).send("something went wrong");
+         
+      }
+   });
+
+   //Feed API- GET/FEED - get all users from the database
+   
    
 // we have created a  api that is storing dummy  data in databases
+//FEED API-GET/feed-get all the users from the database
+
 
 
  
@@ -29,64 +48,7 @@ try{
 
 
 
-// .use will match all the HTTP method API calls to /route_name
-//.get will only handle "GET" call to /route_name
-app.use("/user",[(req,res,next)=>{       // make all request i.e 'get' ,'post' etc on "user" and we will only get. "heheheheheheheh". because the order matters and .use and .get have different functionalities
-     //res.send("heheheheheheheh")     // not commenting out this particular line  , will give an error in terminal because we are trying to send another response through same url..but the first response will be sent ,i.e hehehehehe
-    next();                        // here too order matters ,position of next() function matters a lot  ...we can add many routes as we want
-        
-},
-(req,res,next)=>{
-    console.log("handling the route user 2");           //since there are multiple functions written all over here , so we can also send array of functions. in other words you can wrap all these functions inside an array..done by square brackets after /user
-                                                         //app.use("/route",[rh1,rh2],rh3,[rh4]......). any of them can be grouped in array , or put single on array , no problem
-   // res.send("2nd response");       
-    next();
-},
-(req,res,next)=>{
-    console.log("handling the route user 3");
-    res.send("3rd response");
-    //next();
-},
-(req,res,next)=>{
-    console.log("handling the route user 4");
-    res.send("4rth response");
-},
-(req,res,next)=>{
-    console.log("handling the route user 5");
-    res.send("5th response");
-}
-]
-)
-app.use("/dev",(req,res)=>{
-res.send("hello man you are being listened on server")     //  THIS FUNCTION IS KNOWN AS  REQUEST HANDLER.   //and if only this much is the code , whatever request will come in(written with slash) , only the hello line will be shown
-})
 
-
-//GET/users => it checks all the app.xyz("matching route") function    ... till it gets the response, it will keep going one by one by one from top to bottom to all handler
-
-app.get("/user",(req,res)=>{
-    res.send({firstName: "devesh",  
-        lastName:"Mishra"
-    })
-})
-
-app.use("/hello",(req,res)=>{
-res.send("hello  sir you are being listened on server")     
-})
-
-app.use("/hello/2",(req,res)=>{
-    res.send("hellooo david")
-})
-
-
-
-
-
-
-
-  
-// now writing anything apart form /dev or /hello after 3000 will give "cannot get"
-//we have to acordingly add response handler for that 
 
 connectDB()     //this function returns a promise  
    .then(()=>{

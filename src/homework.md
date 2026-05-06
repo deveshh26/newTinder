@@ -21,3 +21,5 @@
 18 create POST/signup API to add data to databases
 19 push some documents using API calls from postman
 20 difference between javascript object  and json object
+21 add express.json middleware to your app
+22 make your signup api dynamic to receive the data from end user/postman
