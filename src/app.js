@@ -35,6 +35,16 @@ try{
    });
 
    //Feed API- GET/FEED - get all users from the database
+   app.get("/feed",async(req,res)=>{
+      try{const user=await User.find({}); // empty object passed so will print all users
+         res.send(user)}
+   
+      catch(err){
+         res.send(400).send("something went wrong");
+      }
+    
+      res.send(user)
+   })
    
    
 // we have created a  api that is storing dummy  data in databases
