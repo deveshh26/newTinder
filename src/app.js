@@ -45,6 +45,34 @@ try{
     
       res.send(user)
    })
+
+   //DELETE --API ,to delete user from a database
+   app.delete("/user",async(req,res)=>{
+      const userId=req.body.userId;
+      try {
+        // const user=await User.findByIdAndDelete({_id:userID});
+   
+         const user=await User.findByIdAndDelete(userId)
+         res.send("USER DELETED SUCCESSFULLY")
+      } catch (err) {
+         res.status(404).send("something went wrong");
+         
+      }
+   })
+
+   //UPDATE-API to update data of user in database
+   app.patch("/user",async(req,res)=>{
+      const userId=req.body.userId;
+      const data=req.body
+      try {
+         await User.findByIdAndUpdate({_id:userId},data);
+         res.send("user updated successfully")
+         runValidators:true
+         
+      } catch (err) {
+         res.status(400).send("something went wrong")
+      }
+   })
    
    
 // we have created a  api that is storing dummy  data in databases

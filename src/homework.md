@@ -26,3 +26,4 @@
 23 user.findOne with duplicate email id , find out which oject returned.
 24 API--get user by email
 25 FEED API-get all the users from the database
+26 difference between patch and put
