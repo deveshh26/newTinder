@@ -27,3 +27,10 @@
 24 API--get user by email
 25 FEED API-get all the users from the database
 26 difference between patch and put
+27 explore schematype options from the documentation
+28 add "required", "unique","lowercase","min","minLength","trim", "default"
+29 create a custom validate function for gender
+30 improve the db schema put all appropriate validations on each field in the schema
+31 add timestamps to  usersSchema
+32 add API level validation to PATCH request and. signup post api.
+33 add API validation for each field

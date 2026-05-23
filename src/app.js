@@ -64,13 +64,28 @@ try{
    app.patch("/user",async(req,res)=>{
       const userId=req.body.userId;
       const data=req.body
-      try {
-         await User.findByIdAndUpdate({_id:userId},data);
+
+      
+      try {const ALLOWED_UPDATES=["userId","photoUrl","about","gender","age","skills"]
+    /*  {"userId":"6a01e29b4eb0e6f1dc12bbee",
+        "firstName":"alias",
+         "emailID":"alia@gmail.com",
+          "xyz":"cetgbvsipjb"
+}*/
+      const isUpdateAllowed=Object.keys(data).every((k)=>ALLOWED_UPDATES.includes(k))  //says every key should be included in ALLOWED_UPDATES..it is API level validation ,keys not includes in ALLOWED_UPDATES cant be changed or updated
+      if(!isUpdateAllowed){
+       throw new Error("update not allowed")// now if i will send random fields , the update wont be allowed
+      }
+      if(data?.skills.length>10){ 
+         throw new Error("skills cant be more than 10")
+      }
+
+ await User.findByIdAndUpdate({_id:userId},data);
          res.send("user updated successfully")
          runValidators:true
          
       } catch (err) {
-         res.status(400).send("something went wrong")
+         res.status(400).send(err.message)
       }
    })
    
