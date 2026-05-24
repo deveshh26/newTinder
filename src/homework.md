@@ -34,3 +34,5 @@
 31 add timestamps to  usersSchema
 32 add API level validation to PATCH request and. signup post api.
 33 add API validation for each field
+34 install validator
+35 explore validator library  functions and use validator functions for password,email,photourl

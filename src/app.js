@@ -61,8 +61,8 @@ try{
    })
 
    //UPDATE-API to update data of user in database
-   app.patch("/user",async(req,res)=>{
-      const userId=req.body.userId;
+   app.patch("/user/:userId",async(req,res)=>{
+      const userId=req.params.userId;
       const data=req.body
 
       
@@ -80,9 +80,9 @@ try{
          throw new Error("skills cant be more than 10")
       }
 
- await User.findByIdAndUpdate({_id:userId},data);
+ await User.findByIdAndUpdate({_id:userId},data,{runValidators:true});
          res.send("user updated successfully")
-         runValidators:true
+         
          
       } catch (err) {
          res.status(400).send(err.message)

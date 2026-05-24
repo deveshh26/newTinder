@@ -2,6 +2,7 @@
  
 //schema creation
  const mongoose=require("mongoose")
+ const validator=require("validator") //adding schema level validation for email , could have also put database level validation for it also
 const userSchema=new mongoose.Schema({             //without "new" keyword was also fine..?
     firstName: {type:
         String,
@@ -17,11 +18,22 @@ const userSchema=new mongoose.Schema({             //without "new" keyword was a
         required:true,
         unique:true,
         lowercase:true,
-        trim:true
+        trim:true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Invalid email address: "+value)
+            }
+        }
+
 
     },
     password:{
-        type:String
+        type:String,
+         validate(value){
+            if(!validator.isStrongPassword(value)){
+                throw new Error("enter a strong password: "+value)
+            }
+        }
     },
     age:{
         type:Number
@@ -35,7 +47,13 @@ if(!["male","female","others"].includes(value)){
         }
     },
     photoUrl:{
-        type:String
+        type:String,
+        default:"https://imgs.search.brave.com/BJsl2em1KmmDfaB8Qv6PzdlQ8K8YeTz48tFVuTHQc9M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNDYv/ODk2Lzk3MS9zbWFs/bC93b21hbi13aXRo/LWEtY2FtZXJhLW9u/LWEtYmVhdXRpZnVs/LWJhY2tncm91bmQt/Zm9yLXdvcmxkZ3Jh/cGh5LWRheS1waG90/by5qcGc",
+         validate(value){
+            if(!validator.isURL(value)){
+                throw new Error("Invalid photo url: "+value)
+            }
+        }
     },
     about:{
         type:String,
