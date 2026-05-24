@@ -1,4 +1,4 @@
-1)know why have we pushed our package.json and packagelock.json on git
+1 know why have we pushed our package.json and packagelock.json on git
 
 2 play with routes and routes extension ex  "/" , "/hello" , "/hello/2"       you have doubt in this , your output was different than what was present in lecture
 
@@ -36,3 +36,4 @@
 33 add API validation for each field
 34 install validator
 35 explore validator library  functions and use validator functions for password,email,photourl
+36 never trust req.body
