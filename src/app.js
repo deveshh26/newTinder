@@ -2,23 +2,58 @@ const express=require('express')
 const connectDB=require("./config/database") // for connecting to database 
 const app=express()  // creating new application of express ...or instance of express js application 
  const User=require("./models/user")
+ const {validateSignUpData}=require("./utils/validation")// exporting validating functions.
+ const bcrypt=require("bcrypt")
  app.use(express.json())// now my json middleware will be activated for all the routes
    app.post("/signup", async (req,res)=>{
+      try{
 //console.log(req)
-console.log(req.body)  // important for printing the json data , that you created in postman.
+//console.log(req.body)  // important for printing the json data , that you created in postman.
+//validation of data
+validateSignUpData(req);//using the function we created in validation.js, only one line required, makes the code clean
+ const {firstName,lastName,emailID,password}=req.body;
+//encrypt the password
+const passwordHash= await bcrypt.hash(password,10);
+console.log(passwordHash);
+ 
 
-
-    const user =new User( req.body)   //made signup api very very dynamic // creating a new user from the data i have got from the request // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
+    const user =new User({
+      firstName,
+      lastName,
+      emailID,
+      password:passwordHash
+    })   //made signup api very very dynamic // creating a new user from the data i have got from the request // using a new instance of "User" for adding new user to database/// or we are creating new user with above data
     
-try{
+
    await  user.save()  // this function will return a promise ,,basically most of mongoose functions, like to save , fetch data or put on database, all of these functions,methods ,api's return a promise ..so you have to use async  ,await
    res.send("user added successfully")
 } catch (err){
-    res.status(400).send("ERROR saving the user:"+err.message)
+    res.status(400).send("ERROR :"+err.message)
 }
     
 
    });
+
+   app.post("/login",async(req,res)=>{
+      try {
+         const {emailID,password}=req.body ;
+         const user =await User.findOne({emailID:emailID}) //check whether that particular email id , exist in the database or not
+         if(!user){throw new Error("invalid credentials");}
+         const isPasswordValid=await bcrypt.compare(password,user.password);
+         if(isPasswordValid){
+            res.send("login successful")
+         }
+         else{
+            throw new Error("invalid credentials")
+         }
+
+         
+      } catch (err) {
+         res.status(400).send("ERROR: "+err.message)
+         
+      }
+   })
+
    //Get user by email
    app.get("/user",async(req,res)=>{
       const userEmail=req.body.emailID;

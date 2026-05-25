@@ -37,3 +37,8 @@
 34 install validator
 35 explore validator library  functions and use validator functions for password,email,photourl
 36 never trust req.body
+37 validate data in Singup API
+38  Install bcrypt package
+39 create passwordHash using bcrypt.hash and save the user with encrypted password
+40 create login API
+41  compare passwords and throw errors if email or password is invalid
